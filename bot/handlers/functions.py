@@ -4,7 +4,6 @@ import requests
 from aiogram import types
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters import Text
-from django.urls import re_path
 
 from bot.buttons.reply_buttons import back_main_menu_button, main_menu_buttons
 from bot.buttons.text import contact, contact_ru, social_networks, social_networks_ru, location, location_ru, \
