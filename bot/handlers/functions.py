@@ -1,5 +1,8 @@
 import json
+import os
+from urllib.parse import quote
 
+import aiohttp
 import requests
 from aiogram import types
 from aiogram.dispatcher import FSMContext
@@ -144,6 +147,7 @@ async def process_analysis_id(msg: types.Message, state: FSMContext):
     analysis_id = msg.text
     tg_user = json.loads(
         requests.get(url=f"http://127.0.0.1:8000/api/telegram-users/chat_id/{msg.from_user.id}/").content)
+
     if not analysis_id.isdigit():
         if tg_user['language'] == 'uz':
             await msg.answer("❌ Iltimos, to'g'ri ID kiriting.")
@@ -155,12 +159,26 @@ async def process_analysis_id(msg: types.Message, state: FSMContext):
 
     if response.status_code == 200:
         analysis_data = response.json()
-        await msg.answer_document(document=types.InputFile(analysis_data.get('file')[22:]),
+        file_url = f"http://127.0.0.1:8000{quote(analysis_data.get('file'))}"  # Fayl yo‘lini kodlash
+
+        temp_file_path = f"/tmp/{os.path.basename(analysis_data.get('file'))}"
+
+        async with aiohttp.ClientSession() as session:
+            async with session.get(file_url) as resp:
+                if resp.status == 200:
+                    with open(temp_file_path, 'wb') as f:
+                        f.write(await resp.read())
+
+        await msg.answer_document(document=types.InputFile(temp_file_path),
                                   reply_markup=await main_menu_buttons(msg.from_user.id))
+
+        os.remove(temp_file_path)
+
     else:
         if tg_user['language'] == 'uz':
             await msg.answer("❌ Bu ID ga mos analiz topilmadi.", reply_markup=await main_menu_buttons(msg.from_user.id))
         else:
             await msg.answer("❌ Анализ по этому идентификатору не найден.",
                              reply_markup=await main_menu_buttons(msg.from_user.id))
+
     await state.finish()
