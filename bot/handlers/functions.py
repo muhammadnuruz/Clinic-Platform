@@ -159,7 +159,6 @@ async def process_analysis_id(msg: types.Message, state: FSMContext):
 
     if response.status_code == 200:
         analysis_data = response.json()
-        file_url = f"{quote(analysis_data.get('file'))}"
 
         temp_file_path = f"/tmp/{os.path.basename(analysis_data.get('file'))}"
 
