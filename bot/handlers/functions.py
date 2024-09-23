@@ -159,7 +159,7 @@ async def process_analysis_id(msg: types.Message, state: FSMContext):
 
     if response.status_code == 200:
         analysis_data = response.json()
-        file_url = f"http://127.0.0.1:8000{quote(analysis_data.get('file'))}"  # Fayl yo‘lini kodlash
+        file_url = f"http://127.0.0.1:8000{quote(analysis_data.get('file')[22:])}"
 
         temp_file_path = f"/tmp/{os.path.basename(analysis_data.get('file'))}"
 
