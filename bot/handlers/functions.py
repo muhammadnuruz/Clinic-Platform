@@ -164,7 +164,7 @@ async def process_analysis_id(msg: types.Message, state: FSMContext):
         temp_file_path = f"/tmp/{os.path.basename(analysis_data.get('file'))}"
 
         async with aiohttp.ClientSession() as session:
-            async with session.get(file_url) as resp:
+            async with session.get(analysis_data.get('file')) as resp:
                 if resp.status == 200:
                     with open(temp_file_path, 'wb') as f:
                         f.write(await resp.read())
