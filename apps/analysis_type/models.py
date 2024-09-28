@@ -4,6 +4,8 @@ from django.db import models
 class Types(models.Model):
     name = models.CharField(max_length=100)
     ru_name = models.CharField(max_length=100)
+    category = models.CharField(max_length=100)
+    ru_category = models.CharField(max_length=100)
     price = models.IntegerField()
     info = models.TextField()
     ru_info = models.TextField()
