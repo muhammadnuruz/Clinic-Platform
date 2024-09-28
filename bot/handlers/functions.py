@@ -99,24 +99,27 @@ async def process_analysis_name(msg: types.Message, state: FSMContext):
     if response.status_code == 200:
         analysis_data = response.json()
         if analysis_data:
-            if tg_user['language'] == 'uz':
-                result = (
-                    f"🔎 Natija:\n\n"
-                    f"📝 Nomi: {analysis_data.get('name', 'Nomalum')}\n"
-                    f"💵 Narxi: {analysis_data.get('price', 'Nomalum')} so'm\n"
-                    f"ℹ️ Ma'lumot: {analysis_data.get('info', 'Malumot mavjud emas')}\n"
-                    f"🕒 Tayyor bo'lish vaqti: {analysis_data.get('to_be_ready', 'Nomalum')} kun"
-                )
-            else:
-                result = (
-                    f"🔎 Результат:\n\n"
-                    f"📝 Название: {analysis_data.get('ru_name', 'Неизвестно')}\n"
-                    f"💵 Цена: {analysis_data.get('price', 'Неизвестно')} сум\n"
-                    f"ℹ️ Информация: {analysis_data.get('ru_info', 'Информация отсутствует')}\n"
-                    f"🕒 Время готовности: {analysis_data.get('to_be_ready', 'Неизвестно')} день"
-                )
+            for analyse in analysis_data.get('results'):
+                if tg_user['language'] == 'uz':
+                    result = (
+                        f"🔎 Natija:\n\n"
+                        f"🔡 Bo'lim: {analyse.get('category', 'Nomalum')}\n"
+                        f"📝 Nomi: {analyse.get('name', 'Nomalum')}\n"
+                        f"💵 Narxi: {analyse.get('price', 'Nomalum')} so'm\n"
+                        f"ℹ️ Ma'lumot: {analyse.get('info', 'Malumot mavjud emas')}\n"
+                        f"🕒 Tayyor bo'lish vaqti: {analyse.get('to_be_ready', 'Nomalum')} kun"
+                    )
+                else:
+                    result = (
+                        f"🔎 Результат:\n\n"
+                        f"🔡 Категория: {analyse.get('category', 'Неизвестно')}\n"
+                        f"📝 Название: {analyse.get('ru_name', 'Неизвестно')}\n"
+                        f"💵 Цена: {analyse.get('price', 'Неизвестно')} сум\n"
+                        f"ℹ️ Информация: {analyse.get('ru_info', 'Информация отсутствует')}\n"
+                        f"🕒 Время готовности: {analyse.get('to_be_ready', 'Неизвестно')} день"
+                    )
 
-            await msg.answer(result, reply_markup=await main_menu_buttons(msg.from_user.id))
+                await msg.answer(result, reply_markup=await main_menu_buttons(msg.from_user.id))
         else:
             await msg.answer(
                 "❌ Bu nomga mos analiz topilmadi." if tg_user[
