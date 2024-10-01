@@ -10,17 +10,18 @@ from aiogram.dispatcher.filters import Text
 
 from bot.buttons.reply_buttons import back_main_menu_button, main_menu_buttons
 from bot.buttons.text import contact, contact_ru, social_networks, social_networks_ru, location, location_ru, \
-    ask_question_ru, ask_question, search_analyses, search_analyses_ru, get_analyses_result, get_analyses_result_ru
+    ask_question_ru, ask_question, search_analyses, search_analyses_ru, get_analyses_result, get_analyses_result_ru, \
+    back_main_menu, back_main_menu_ru
 from bot.dispatcher import dp, bot
 from main import admins
 
 locations = {
     "Yunusobod filliali": (41.3653103, 69.291063),
     "Chirchiq filliali": (41.436581, 69.545277),
-    "Best Medical filliali": (41.33356, 69.36789),
-    "Mirzo Ulug'bek fillial": (41.347393, 69.339413),
-    "Sifat Medical filliali": (41.3202702, 69.3501809),
-    "Farhod Lor filliali": (41.382077, 69.353685),
+    "Best Medical filliali": (41.33356,69.36789),
+    "Mirzo Ulug'bek fillial": (41.347393,69.339413),
+    "Sifat Medical filliali": (41.3202702,69.3501809),
+    "Farhod Lor filliali": (41.382077,69.353685),
 }
 
 phone_numbers = {
@@ -31,7 +32,6 @@ phone_numbers = {
     "Sifat Medical filliali": "+998909942704",
     "Farhod Lor filliali": "+998335833900",
 }
-
 
 @dp.message_handler(Text(equals=[contact, contact_ru]))
 async def contact_function(msg: types.Message):
@@ -67,10 +67,11 @@ async def contact_function(msg: types.Message):
 
     for location_name in locations.keys():
         keyboard.add(types.KeyboardButton(location_name))
-
     if msg.text == location:
+        keyboard.add(back_main_menu)
         await msg.answer("Iltimos, lokatsiyangizni tanlang:", reply_markup=keyboard)
     else:
+        keyboard.add(back_main_menu_ru)
         await msg.answer("Пожалуйста, выберите вашу локацию:", reply_markup=keyboard)
 
 
@@ -81,9 +82,8 @@ async def location_handler(msg: types.Message):
 
     if msg.text in locations:  # Ensure the location is valid
         await msg.answer(text=f"Tanlangan lokatsiya: {msg.text}\nAloqa uchun: {phone_number}" if msg.text == location
-        else f"Выбранная локация: {msg.text}\nКонтактный номер: {phone_number}")
-        await msg.answer_location(latitude=latitude, longitude=longitude,
-                                  reply_markup=await main_menu_buttons(msg.from_user.id))
+                         else f"Выбранная локация: {msg.text}\nКонтактный номер: {phone_number}")
+        await msg.answer_location(latitude=latitude, longitude=longitude)
 
 
 @dp.message_handler(Text(equals=[ask_question, ask_question_ru]))
