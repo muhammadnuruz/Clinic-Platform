@@ -119,19 +119,15 @@ async def process_analysis_name(msg: types.Message, state: FSMContext):
                         f"🕒 Время готовности: {analyse.get('to_be_ready', 'Неизвестно')} день"
                     )
 
-                await msg.answer(result, reply_markup=await main_menu_buttons(msg.from_user.id))
+                await msg.answer(result)
         else:
             await msg.answer(
                 "❌ Bu nomga mos analiz topilmadi." if tg_user[
-                                                          'language'] == 'uz' else "❌ Анализ с таким названием не найден.",
-                reply_markup=await main_menu_buttons(msg.from_user.id))
+                                                          'language'] == 'uz' else "❌ Анализ с таким названием не найден.")
     else:
         await msg.answer(
             "❌ Bu nomga mos analiz topilmadi." if tg_user[
-                                                      'language'] == 'uz' else "❌ Анализ с таким названием не найден.",
-            reply_markup=await main_menu_buttons(msg.from_user.id))
-
-    await state.finish()
+                                                      'language'] == 'uz' else "❌ Анализ с таким названием не найден.")
 
 
 @dp.message_handler(Text(equals=[get_analyses_result, get_analyses_result_ru]))
