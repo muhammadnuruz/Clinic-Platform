@@ -17,10 +17,10 @@ from main import admins
 locations = {
     "Yunusobod filliali": (41.3653103, 69.291063),
     "Chirchiq filliali": (41.436581, 69.545277),
-    "Best Medical filliali": (41.33356,69.36789),
-    "Mirzo Ulug'bek fillial": (41.347393,69.339413),
-    "Sifat Medical filliali": (41.3202702,69.3501809),
-    "Farhod Lor filliali": (41.382077,69.353685),
+    "Best Medical filliali": (41.33356, 69.36789),
+    "Mirzo Ulug'bek fillial": (41.347393, 69.339413),
+    "Sifat Medical filliali": (41.3202702, 69.3501809),
+    "Farhod Lor filliali": (41.382077, 69.353685),
 }
 
 phone_numbers = {
@@ -31,6 +31,7 @@ phone_numbers = {
     "Sifat Medical filliali": "+998909942704",
     "Farhod Lor filliali": "+998335833900",
 }
+
 
 @dp.message_handler(Text(equals=[contact, contact_ru]))
 async def contact_function(msg: types.Message):
@@ -80,8 +81,9 @@ async def location_handler(msg: types.Message):
 
     if msg.text in locations:  # Ensure the location is valid
         await msg.answer(text=f"Tanlangan lokatsiya: {msg.text}\nAloqa uchun: {phone_number}" if msg.text == location
-                         else f"Выбранная локация: {msg.text}\nКонтактный номер: {phone_number}")
-        await msg.answer_location(latitude=latitude, longitude=longitude)
+        else f"Выбранная локация: {msg.text}\nКонтактный номер: {phone_number}")
+        await msg.answer_location(latitude=latitude, longitude=longitude,
+                                  reply_markup=await main_menu_buttons(msg.from_user.id))
 
 
 @dp.message_handler(Text(equals=[ask_question, ask_question_ru]))
