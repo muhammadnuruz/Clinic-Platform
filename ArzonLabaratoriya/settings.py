@@ -56,7 +56,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = [
+    'https://arzonlab.netlify.app',
+]
 
 ROOT_URLCONF = 'ArzonLabaratoriya.urls'
 
