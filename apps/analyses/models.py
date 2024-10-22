@@ -7,8 +7,8 @@ class Analyses(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Analyse"
-        verbose_name_plural = "Analyses"
+        verbose_name = "Analiz "
+        verbose_name_plural = "Analizlar "
 
     def __str__(self):
         return f"{self.analyse_id}"

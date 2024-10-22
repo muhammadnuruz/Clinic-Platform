@@ -32,8 +32,8 @@ class Types(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
-        verbose_name = "Type"
-        verbose_name_plural = "Types"
+        verbose_name = "Tur "
+        verbose_name_plural = "Turlar "
 
     def __str__(self):
         return self.name
