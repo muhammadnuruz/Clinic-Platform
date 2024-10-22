@@ -153,9 +153,10 @@ LOGIN_URL = '/admin/login/'
 
 MEDIA_URL = '/pdfs/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'pdfs')
-LOCALE_PATHS = (
-    os.path.join(BASE_DIR, 'locale'),
-)
+LOCALE_PATHS = [
+    BASE_DIR / 'locale',
+]
+
 
 USE_I18N = True
 USE_L10N = True
