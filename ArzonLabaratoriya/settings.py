@@ -153,3 +153,7 @@ LOGIN_URL = '/admin/login/'
 
 MEDIA_URL = '/pdfs/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'pdfs')
+
+USE_I18N = True
+USE_L10N = True
+LANGUAGE_CODE = 'uz'
