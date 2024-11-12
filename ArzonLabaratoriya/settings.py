@@ -22,7 +22,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-c8@18*sl-_eb0!#3vz(87!)&#ldmska)-=&opra#59z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -157,7 +157,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'pdfs')
 LOCALE_PATHS = [
     BASE_DIR / 'locale',
 ]
-
 
 USE_I18N = True
 USE_L10N = True
