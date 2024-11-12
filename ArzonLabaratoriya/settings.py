@@ -31,6 +31,12 @@ ALLOWED_HOSTS = ['*']
 # SESSION_COOKIE_SECURE = True
 # Application definition
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://arzonlab.uz',
+    # Add other trusted origins here if needed
+]
+CSRF_COOKIE_SECURE = True
+
 INSTALLED_APPS = [
     'jazzmin',
     'corsheaders',
