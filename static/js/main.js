@@ -1,38 +1,36 @@
 // API URLlari
-const searchApiUrl = "https://arzonlab.uz/api/types/search/";
-const analyseApiUrl = "https://arzonlab.uz/api/analyses/";
+const searchApiUrl = "http://147.45.106.35:8000/api/types/search/";
+const analyseApiUrl = "http://147.45.106.35:8000/api/analyses/";
 
-// HTTPS yo'naltirish (localhostdan tashqari)
-if (window.location.protocol === 'http:' && !window.location.host.includes('localhost')) {
+if (window.location.protocol === 'https:') {
     window.location.href = window.location.href.replace('http:', 'https:');
 }
+
 
 // Type qidirish funksiyasi
 function searchType() {
     const searchText = document.getElementById('searchText').value;
 
-    if (!searchText.trim()) {
-        alert('Iltimos, qidiriladigan matnni kiriting!');
+    if (!searchText) {
+        alert('Please enter search text!');
         return;
     }
 
     const typeResultDiv = document.getElementById('typeResult');
-    typeResultDiv.innerHTML = '<p>Qidirilmoqda...</p>'; // Loading xabarini ko'rsatish
+    typeResultDiv.innerHTML = '';
 
     // APIga so'rov yuborish
     fetch(`${searchApiUrl}${searchText}/`)
         .then(response => {
             if (!response.ok) {
-                throw new Error('Tahlil topilmadi');
+                throw new Error('No types found');
             }
             return response.json();
         })
         .then(data => {
-            typeResultDiv.innerHTML = ''; // Oldingi loading xabarini tozalash
-
             // data.results arrayga tekshirish
             if (!Array.isArray(data.results)) {
-                throw new Error('Kutilmagan javob formati');
+                throw new Error('Unexpected response format');
             }
 
             if (data.results.length === 0) {
@@ -57,13 +55,13 @@ function searchType() {
 function getAnalysis() {
     const analyseId = document.getElementById('analyseId').value;
 
-    if (!analyseId.trim()) {
+    if (!analyseId) {
         alert('Laboratoriya tomonidan berilgan IDni kiriting!');
         return;
     }
 
     const analyseResultDiv = document.getElementById('analyseResult');
-    analyseResultDiv.innerHTML = '<p>Yuklanmoqda...</p>'; // Loading xabarini ko'rsatish
+    analyseResultDiv.innerHTML = '';
 
     // APIga so'rov yuborish
     fetch(`${analyseApiUrl}${analyseId}/`)
@@ -74,8 +72,6 @@ function getAnalysis() {
             return response.json();
         })
         .then(data => {
-            analyseResultDiv.innerHTML = ''; // Oldingi loading xabarini tozalash
-
             const analyseDiv = document.createElement('div');
             analyseDiv.classList.add('result');
 
@@ -91,3 +87,101 @@ function getAnalysis() {
             analyseResultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
         });
 }
+
+(function ($) {
+    "use strict";
+
+    // Spinner
+    var spinner = function () {
+        setTimeout(function () {
+            if ($('#spinner').length > 0) {
+                $('#spinner').removeClass('show');
+            }
+        }, 1);
+    };
+    spinner();
+
+
+    // Initiate the wowjs
+    new WOW().init();
+
+
+    // Sticky Navbar
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.sticky-top').addClass('shadow-sm').css('top', '0px');
+        } else {
+            $('.sticky-top').removeClass('shadow-sm').css('top', '-100px');
+        }
+    });
+
+
+    // Back to top button
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 300) {
+            $('.back-to-top').fadeIn('slow');
+        } else {
+            $('.back-to-top').fadeOut('slow');
+        }
+    });
+    $('.back-to-top').click(function () {
+        $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
+        return false;
+    });
+
+
+    // Facts counter
+    $('[data-toggle="counter-up"]').counterUp({
+        delay: 10,
+        time: 2000
+    });
+
+
+    // Date and time picker
+    $('.date').datetimepicker({
+        format: 'L'
+    });
+    $('.time').datetimepicker({
+        format: 'LT'
+    });
+
+
+    // Header carousel
+    $(".header-carousel").owlCarousel({
+        autoplay: false,
+        animateOut: 'fadeOutLeft',
+        items: 1,
+        dots: true,
+        loop: true,
+        nav : true,
+        navText : [
+            '<i class="bi bi-chevron-left"></i>',
+            '<i class="bi bi-chevron-right"></i>'
+        ]
+    });
+
+
+    // Testimonials carousel
+    $(".testimonial-carousel").owlCarousel({
+        autoplay: false,
+        smartSpeed: 1000,
+        center: true,
+        dots: false,
+        loop: true,
+        nav : true,
+        navText : [
+            '<i class="bi bi-arrow-left"></i>',
+            '<i class="bi bi-arrow-right"></i>'
+        ],
+        responsive: {
+            0:{
+                items:1
+            },
+            768:{
+                items:2
+            }
+        }
+    });
+
+
+})(jQuery);
