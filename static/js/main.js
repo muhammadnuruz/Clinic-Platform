@@ -1,6 +1,6 @@
 // API URLlari
-const searchApiUrl = "http://147.45.106.35:8000/api/types/search/";
-const analyseApiUrl = "http://147.45.106.35:8000/api/analyses/";
+const searchApiUrl = "https://arzonlab.uz/api/types/search/";
+const analyseApiUrl = "https://arzonlab.uz/api/analyses/";
 
 if (window.location.protocol === 'http') {
     window.location.href = window.location.href.replace('http', 'https');
