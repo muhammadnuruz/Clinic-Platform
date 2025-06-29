@@ -1,6 +1,6 @@
 # 🏥 Clinic Platform – Django-based Medical Service System
 
-> 🌐 Multilingual Support: This version is fully in **English**
+> 🌐 Multilingual Support
 
 ---
 
